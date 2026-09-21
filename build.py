@@ -134,9 +134,13 @@ footer a{color:var(--paper-dim)}
 
 FONTS = re.search(r'<link rel="preconnect".*?rel="stylesheet">', SRC, re.S).group(0)
 
-for slug, path in (("privacy", "/privacy.html"), ("terms", "/terms.html")):
+# Clean URLs: GitHub Pages has no rewrite rules, but it serves index.html from a
+# directory, so privacy/index.html is reachable as /privacy/ (Pages 301s /privacy
+# to the trailing-slash form). Keep every internal link pointing at /privacy/.
+for slug, path in (("privacy", "/privacy/"), ("terms", "/terms/")):
     t, body = md_to_html((HERE / f"{slug}.md").read_text())
-    (HERE / f"{slug}.html").write_text(f"""<!DOCTYPE html>
+    (HERE / slug).mkdir(exist_ok=True)
+    (HERE / slug / "index.html").write_text(f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <title>{t}</title>
@@ -148,10 +152,10 @@ for slug, path in (("privacy", "/privacy.html"), ("terms", "/terms.html")):
 <div class="wrap">
 <nav class="back"><a href="/">&larr; Twincan</a></nav>
 {body}
-<footer><a href="/">Twincan</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></footer>
+<footer><a href="/">Twincan</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a></footer>
 </div>
 </body>
 </html>
 """)
 
-print("built: index.html, privacy.html, terms.html")
+print("built: index.html, privacy/index.html, terms/index.html")

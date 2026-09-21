@@ -10,8 +10,8 @@ Twincan is an iOS app. It has no accounts and no servers of its own — notes mo
 between the two phones through your own iCloud. It is currently in a small beta.
 
 - **Site:** [twincan.com](https://twincan.com)
-- **Privacy policy:** [twincan.com/privacy.html](https://twincan.com/privacy.html)
-- **Terms of use:** [twincan.com/terms.html](https://twincan.com/terms.html)
+- **Privacy policy:** [twincan.com/privacy/](https://twincan.com/privacy/)
+- **Terms of use:** [twincan.com/terms/](https://twincan.com/terms/)
 
 ## About this repository
 
@@ -37,8 +37,8 @@ python3 build.py
 | Privacy policy | `privacy.md` |
 | Terms of use | `terms.md` |
 
-`index.html`, `privacy.html` and `terms.html` are **generated** — edit the sources
-above and re-run the build, or your changes will be overwritten. The generated
+`index.html`, `privacy/index.html` and `terms/index.html` are **generated** — edit
+the sources above and re-run the build, or your changes will be overwritten. The generated
 files are committed because GitHub Pages serves them directly; there is no CI
 build step.
 
@@ -54,6 +54,11 @@ the assumption the edit broke.
 
 GitHub Pages serves `main` from the repository root, so pushing is deploying.
 `CNAME` pins the custom domain.
+
+URLs are extensionless (`/privacy/`, not `/privacy.html`) because the legal pages
+build into their own directories as `index.html`. Pages has no rewrite rules, so
+this is the only way to get clean URLs from it — keep internal links pointing at
+the trailing-slash form.
 
 ## Licence
 
