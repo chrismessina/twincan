@@ -25,7 +25,10 @@ SITE = "https://twincan.com"
 
 def inline(s: str) -> str:
     s = _html.escape(s, quote=False)
-    s = re.sub(r"\[(.+?)\]\((.+?)\)", r'<a href="\2">\1</a>', s)
+    # The URL lands inside a quoted attribute, so it needs attribute escaping —
+    # html.escape(quote=False) above only covers text context.
+    s = re.sub(r"\[(.+?)\]\((.+?)\)",
+               lambda m: f'<a href="{_html.escape(m.group(2), quote=True)}">{m.group(1)}</a>', s)
     s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
     s = re.sub(r"\*(.+?)\*", r"<em>\1</em>", s)
     return s
@@ -73,6 +76,18 @@ def meta(title: str, path: str) -> str:
 
 
 # ---- index.html: wrap the fragment into a document --------------------------
+# These extractors assume a narrow shape for index.src.html. They are asserted
+# rather than trusted: a silently mis-built page is far worse than a failed
+# build, and this file gets hand-edited.
+assert SRC.count("</style>") == 1, (
+    "index.src.html must contain exactly one <style> block — the split below "
+    "would put later CSS into <body>.")
+assert SRC.count(":root{") == 1, (
+    "index.src.html must contain exactly one ':root{' rule (and spelled without "
+    "a space) — the legal pages copy the palette from it.")
+assert SRC.split("<title>", 1)[0].strip() == "", (
+    "index.src.html must start with <title> — anything before it is dropped.")
+
 head_frag, body_frag = SRC.split("</style>", 1)
 head_frag += "</style>"
 title = re.search(r"<title>(.*?)</title>", head_frag).group(1)
