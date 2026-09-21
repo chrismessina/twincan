@@ -18,8 +18,8 @@ import re
 HERE = pathlib.Path(__file__).parent
 SRC = (HERE / "index.src.html").read_text()
 
-DESCRIPTION = ("Twincan is a tape deck that lives on two phones. String the can to one "
-               "person and every note you record lands on their platter, and theirs on yours.")
+DESCRIPTION = ("An answering machine for two! String the can to one person and every note "
+               "you record lands on their platter, and theirs on yours.")
 SITE = "https://twincan.com"
 
 
