@@ -1,42 +1,60 @@
 # twincan.com
 
-Static marketing site for **Twincan**, a voice-note app for exactly two people.
+The website for **Twincan** — a voice-note app for exactly two people.
 
-Three pages, no server, no build dependencies beyond Python 3.
+You string a can to one person: a partner, a parent, your best friend. From then
+on every note you record lands on their platter, and theirs on yours. No feeds,
+no followers, no group chats. One person, both directions.
+
+Twincan is an iOS app. It has no accounts and no servers of its own — notes move
+between the two phones through your own iCloud. It is currently in a small beta.
+
+- **Site:** [twincan.com](https://twincan.com)
+- **Privacy policy:** [twincan.com/privacy.html](https://twincan.com/privacy.html)
+- **Terms of use:** [twincan.com/terms.html](https://twincan.com/terms.html)
+
+## About this repository
+
+This repo holds **only the public marketing site** — three static pages, no
+tracking, no framework. The iOS app is closed source and lives elsewhere; nothing
+here is part of it.
+
+It is public because a marketing site has nothing to hide, and because a privacy
+policy and terms of use ought to be as inspectable as any other published
+document.
+
+## Building
+
+Python 3, no dependencies.
+
+```bash
+python3 build.py
+```
+
+| To change | Edit |
+|---|---|
+| Landing page | `index.src.html` |
+| Privacy policy | `privacy.md` |
+| Terms of use | `terms.md` |
+
+`index.html`, `privacy.html` and `terms.html` are **generated** — edit the sources
+above and re-run the build, or your changes will be overwritten. The generated
+files are committed because GitHub Pages serves them directly; there is no CI
+build step.
+
+`build.py` wraps `index.src.html` into a complete document and adds the meta,
+Open Graph and canonical tags. The legal pages are rendered with a compact shell
+that reads its palette out of `index.src.html`, so the colours cannot drift apart.
+
+The build asserts the shape of its inputs and fails loudly rather than quietly
+emitting a wrong page. If it stops with an `AssertionError`, the message names
+the assumption the edit broke.
 
 ## Deploying
 
-GitHub Pages serves this repo's `main` branch from the root. Push and it's live.
-`CNAME` pins the custom domain to `twincan.com`.
+GitHub Pages serves `main` from the repository root, so pushing is deploying.
+`CNAME` pins the custom domain.
 
-The app itself lives in a separate private repo — nothing here is part of the iOS
-source.
+## Licence
 
-## Editing
-
-| To change | Edit | Then |
-|---|---|---|
-| The landing page | `index.src.html` | `python3 build.py` |
-| Privacy policy | `privacy.md` | `python3 build.py` |
-| Terms of use | `terms.md` | `python3 build.py` |
-
-**Do not edit `index.html`, `privacy.html` or `terms.html` directly — they are
-generated and will be overwritten.** Commit both the sources and the built HTML;
-Pages serves the built files and there is no CI build step.
-
-### Why `index.src.html` exists
-
-It is a *fragment* — no `<!DOCTYPE>`, no `<head>`, no `<body>`. It was originally
-written to be split at `</style>` and injected into Ghost as an HTML card, which
-is why it has that shape. `build.py` wraps it into a real document and adds the
-meta, Open Graph and canonical tags a standalone site needs.
-
-The legal pages reuse the cover's own `:root` palette, read out of
-`index.src.html` at build time, so the colours can't drift.
-
-## Still on Ghost
-
-`chrismessina.me/tincan/`, `/tincan-privacy/` and `/tincan-terms/` still serve the
-same content, published by `publish-ghost.py` in the app repo. Once this site is
-live those should 301 here, via a `redirects.json` upload in
-Ghost Admin → Settings → Labs. Until then the content is duplicated in two places.
+Site content and copy © Chris Messina. `build.py` is MIT.

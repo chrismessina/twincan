@@ -1,6 +1,6 @@
 # Twincan Terms of Use
 
-*Effective: [DATE — set at publication]*
+*Effective: September 9, 2026*
 
 These terms govern your use of the Twincan iOS application ("Twincan"), made by Chris Messina.
 

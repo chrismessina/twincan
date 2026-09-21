@@ -1,6 +1,6 @@
 # Twincan Privacy Policy
 
-*Effective: [DATE — set at publication]*
+*Effective: September 9, 2026*
 
 Twincan is a voice-note app for exactly two people, made by Chris Messina. This policy describes everything it does with your information. It is short because Twincan does very little with your information.
 
