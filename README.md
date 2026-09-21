@@ -1,6 +1,6 @@
 # twincan.com
 
-The website for **Twincan** — a voice-note app for exactly two people.
+The website for **Twincan** — an answering machine for two!
 
 You string a can to one person: a partner, a parent, your best friend. From then
 on every note you record lands on their platter, and theirs on yours. No feeds,
