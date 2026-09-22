@@ -1,1 +1,17 @@
 .DS_Store
+
+# Craft Agents workspace state. It writes into whatever directory it is pointed
+# at; none of it belongs in a public repo — events.jsonl and sessions/ in
+# particular are local activity logs.
+#
+# Root-anchored on purpose: a future assets/icon.png or src/config.json should
+# still be tracked.
+/.claude-plugin/
+/config.json
+/events.jsonl
+/icon.png
+/labels/
+/sessions/
+/sources/
+/statuses/
+/views.json
