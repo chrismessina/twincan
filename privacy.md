@@ -37,4 +37,4 @@ If this policy changes, the updated version will be posted at this address with 
 
 ## Contact
 
-Chris Messina — chris.messina@gmail.com
+Chris Messina — [chrismessina.me/contact](https://www.chrismessina.me/contact/)

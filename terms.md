@@ -36,4 +36,4 @@ Updated terms will be posted at this address with a new effective date. Continue
 
 ## 8. Contact
 
-Chris Messina — chris.messina@gmail.com
+Chris Messina — [chrismessina.me/contact](https://www.chrismessina.me/contact/)
