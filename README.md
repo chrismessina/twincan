@@ -36,8 +36,9 @@ python3 build.py
 | Landing page | `index.src.html` |
 | Privacy policy | `privacy.md` |
 | Terms of use | `terms.md` |
+| OpenRouter sign-in callback (`/auth/openrouter/`) | the block at the end of `build.py` |
 
-`index.html`, `privacy/index.html` and `terms/index.html` are **generated** — edit
+`index.html`, `privacy/index.html`, `terms/index.html` and `auth/openrouter/index.html` are **generated** — edit
 the sources above and re-run the build, or your changes will be overwritten. The generated
 files are committed because GitHub Pages serves them directly; there is no CI
 build step.

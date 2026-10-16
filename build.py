@@ -158,4 +158,53 @@ for slug, path in (("privacy", "/privacy/"), ("terms", "/terms/")):
 </html>
 """)
 
-print("built: index.html, privacy/index.html, terms/index.html")
+# ---- OpenRouter sign-in callback --------------------------------------------
+# The app's "Connect OpenRouter" sends the user to openrouter.ai/auth with this
+# page as callback_url (OpenRouter needs a web URL). The page hands the query —
+# the one-time code and state, or OpenRouter's error — straight to the app's
+# sign-in sheet (ASWebAuthenticationSession catches the twincan:// navigation),
+# and stores nothing. The code is useless without the PKCE verifier, which the
+# app sends only to OpenRouter, never through this page.
+OPENROUTER_JS = """
+(function () {
+  // The query exactly as OpenRouter sent it (re-encoding could change the
+  // code), then out of the address bar and history on every path.
+  var search = location.search;
+  history.replaceState(null, "", location.pathname);
+  var msg = document.getElementById("msg"), link = document.getElementById("open");
+  if (!search) {
+    msg.textContent = "This page finishes connecting OpenRouter to Twincan. Start from Connect OpenRouter in Twincan's Settings.";
+    return;
+  }
+  var dest = "twincan://openrouter" + search;
+  link.href = dest;
+  link.hidden = false;
+  location.replace(dest);
+})();
+"""
+
+(HERE / "auth" / "openrouter").mkdir(parents=True, exist_ok=True)
+(HERE / "auth" / "openrouter" / "index.html").write_text(f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Connecting OpenRouter</title>
+{meta("Connecting OpenRouter", "/auth/openrouter/")}
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+{FONTS}
+<style>{LEGAL_CSS}</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="back"><a href="/">&larr; Twincan</a></nav>
+<h1>Connecting OpenRouter</h1>
+<p id="msg">Returning to Twincan&hellip;</p>
+<p><a id="open" hidden>Open Twincan</a></p>
+<footer><a href="/">Twincan</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a></footer>
+</div>
+<script>{OPENROUTER_JS}</script>
+</body>
+</html>
+""")
+
+print("built: index.html, privacy/index.html, terms/index.html, auth/openrouter/index.html")

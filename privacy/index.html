@@ -49,27 +49,45 @@ footer a{color:var(--paper-dim)}
 <div class="wrap">
 <nav class="back"><a href="/">&larr; Twincan</a></nav>
 <h1>Twincan Privacy Policy</h1>
-<p><em>Effective: September 9, 2026</em></p>
-<p>Twincan is a voice-note app for exactly two people, made by Chris Messina. This policy describes everything it does with your information. It is short because Twincan does very little with your information.</p>
+<p><em>Effective: October 15, 2026</em></p>
+<p>Twincan is a voice-note app for exactly two people, made by Chris Messina. This policy describes what it does with your information. It is short because Twincan does very little with your information.</p>
 <h2>What Twincan stores, and where</h2>
 <ul>
-<li><strong>Voice notes.</strong> Recordings you make are stored on your device and, when you send them, in your personal iCloud account (CloudKit). When your can is strung to another person, sent notes live in a shared CloudKit zone that only the two of you can access. Apple encrypts CloudKit data in transit and at rest.</li>
-<li><strong>Transcripts and titles.</strong> Transcription and note titling happen entirely on your device using Apple's on-device speech and language models. Transcripts are stored locally on your device and are not uploaded.</li>
-<li><strong>Your name and photo.</strong> If you set a profile photo, it is shared only with the one person your can is strung to, through the same shared CloudKit zone.</li>
+<li><strong>Voice notes.</strong> Recordings you make are stored on your device. When you send one, it is saved to iCloud (CloudKit) along with its title, when it was recorded, and how long it is. When your can is strung to another person, sent notes live in a shared CloudKit zone in the inviter's iCloud account, which both of you can access. Apple encrypts CloudKit data in transit and at rest.</li>
+<li><strong>The invite link.</strong> Accepting your invite link is what grants access to the shared zone, so send it only to the person you mean to string your can to.</li>
+<li><strong>Transcripts and titles.</strong> Transcription and note titling happen on your device using Apple's on-device speech and language models. Transcripts are stored on your device. Twincan does not send them to iCloud; titles travel with the notes you send.</li>
+<li><strong>Your name, photo, and pronouns.</strong> If you set a profile photo or your pronouns, they are shared with the person your can is strung to, through the same shared zone.</li>
 <li><strong>Read receipts.</strong> When you play a received note, a timestamp is written back to the shared zone so the sender's app can show the note was heard.</li>
+<li><strong>Device backups.</strong> Like other apps' data, what Twincan stores on your device can be included in your iPhone's backups, such as iCloud Backup, according to your settings.</li>
+</ul>
+<h2>Note tools: summaries, key points, and questions</h2>
+<p>Twincan can summarize a note, list its key points, rewrite it as bullets, paraphrase it, and find the questions in it. Where that work happens depends on your setup:</p>
+<ul>
+<li><strong>On your device, by default.</strong> With Apple Intelligence, the tools run on Apple's on-device model, and the note's contents stay on your iPhone.</li>
+<li><strong>With your own API key.</strong> If you add an Anthropic, OpenAI, or OpenRouter API key in Settings, the tools run through that company instead. When you use a tool, the note's transcript is sent to it, and received notes are also sent automatically to check them for questions. For a received note, the sender's name as it appears in Twincan and, if known, their pronouns are included so the result can refer to them correctly. Audio is never sent. Your key is stored in your iPhone's keychain, is not synced, and is sent only to the company it belongs to. That company's privacy policy and terms govern what it does with what it receives, and usage is billed to your key.</li>
+<li><strong>OpenRouter passes your request on.</strong> OpenRouter is not itself the model: it forwards the transcript to the model provider it routes to (Twincan asks for Anthropic's Claude), so both OpenRouter's and that provider's policies apply.</li>
+<li><strong>Claude, provided by Twincan.</strong> A future version of Twincan may provide access to Claude itself, so that no key is needed. Transcripts would then be sent to Anthropic in the same way, with the usage billed to Twincan. To prove it is a genuine copy of Twincan, your iPhone would use Apple's App Attest, which creates a key for this installation of the app; it identifies the installation, not your name or Apple ID. Your own key always takes precedence.</li>
+<li><strong>Connecting OpenRouter.</strong> In versions of Twincan that offer it, you can connect an OpenRouter account instead of pasting a key. You sign in on openrouter.ai, and OpenRouter returns a one-time code to Twincan through a page on twincan.com. The page forwards the code to the app and keeps nothing; like any web page, its host may log the request. The code is useless without a secret the app sends only to OpenRouter, which exchanges the two for a key that is kept like any other.</li>
+<li><strong>Results stay on your device.</strong> Summaries, key points, and the other results are stored on your iPhone and are not sent to iCloud.</li>
 </ul>
 <h2>What Twincan does NOT do</h2>
 <ul>
 <li>No accounts. Twincan uses your existing iCloud identity; we never see your password, email, or phone number.</li>
-<li>No servers of ours. Twincan has no backend. Your data moves through Apple's iCloud infrastructure under your own Apple ID.</li>
+<li>No servers of ours. Twincan has no backend. Your data moves through Apple's iCloud infrastructure under your own Apple ID and, only if you set up the note tools as described above, to the AI company you chose.</li>
 <li>No analytics, tracking, advertising, or telemetry of any kind.</li>
-<li>No access to your contacts database. Choosing an invite recipient uses Apple's out-of-process contact picker; Twincan receives only the single name you pick.</li>
-<li>No sale or sharing of data with anyone, because we do not have it.</li>
+<li>No access to your contacts database. Choosing an invite recipient uses Apple's out-of-process contact picker; Twincan keeps only the name of the person you pick.</li>
+<li>No sale of your data. Twincan shares it only as this policy describes: with the person your can is strung to, and with the AI company you choose.</li>
 </ul>
 <h2>Microphone and speech</h2>
-<p>Twincan requests microphone access to record voice notes, and speech-recognition access to transcribe them on your device. Both are used only while you use those features. Nothing recorded or transcribed leaves your device except the voice notes you explicitly send.</p>
+<p>Twincan requests microphone access to record voice notes, and transcribes them on your device with Apple's on-device speech model. Both happen only while you use those features. Nothing recorded or transcribed leaves your device except the notes you send, their titles, and, if you set up the note tools to use an AI company, the transcripts described above.</p>
 <h2>Unstringing and deletion</h2>
-<p>Unstringing your can removes the received notes on your device and disconnects the shared zone. Deleting a note removes its audio and transcript from your device and, for sent notes, from the shared zone. Deleting the app removes all local data; iCloud data can be removed by unstringing first, or via iCloud storage management.</p>
+<ul>
+<li><strong>Unstringing</strong> disconnects the two of you and removes the notes you received from your device. If you sent the invite, it stops sharing your zone; if you accepted one, it removes you from the other person's zone. It does not erase notes already in iCloud: the inviter's iCloud account keeps the shared zone's contents, which the inviter can remove from their iPhone's iCloud storage settings.</li>
+<li><strong>Deleting a note</strong> removes it from Twincan and deletes its audio, transcript, and tool results from your device; a result still being made at that moment is cleared the next time Twincan tidies up. Deleting a note you already sent does not remove it from iCloud or from the other person's device.</li>
+<li><strong>Removing your API key</strong> in Settings deletes it from your keychain. Keychain items can outlast the app, so remove your key in Settings before deleting Twincan.</li>
+<li><strong>Deleting the app</strong> removes the recordings, transcripts, and results stored on your device.</li>
+<li><strong>Transcripts already sent</strong> to an AI company are subject to that company's retention policy.</li>
+</ul>
 <h2>Children</h2>
 <p>Twincan is not directed at children under 13 and does not knowingly collect information from them.</p>
 <h2>Changes</h2>

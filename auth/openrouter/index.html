@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Connecting OpenRouter</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="An answering machine for two! String the can to one person and every note you record lands on their platter, and theirs on yours.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Twincan">
+<meta property="og:title" content="Connecting OpenRouter">
+<meta property="og:description" content="An answering machine for two! String the can to one person and every note you record lands on their platter, and theirs on yours.">
+<meta property="og:url" content="https://twincan.com/auth/openrouter/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://twincan.com/auth/openrouter/">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<style>:root{
+  --night:#0b0a0c; --paper:#f3ead8; --paper-dim:#cbbfa6;
+  --tp-red:#c8102e; --sky-hi:#e58ac2; --sky-lo:#5a3a6e;
+  --pine:#0f2418; --pine-hi:#1c3a26; --snow:#e9e4ef;
+  --rr-red:#58090e; --rr-tan:#c99a5f; --rr-brown:#2b160c; --rr-cream:#f2e3c8;
+  --serif:"Libre Caslon Text",Georgia,serif;
+  --slab:"Oswald","Arial Narrow",sans-serif;
+  --type:"Special Elite","Courier New",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--paper);font-family:var(--serif);
+  line-height:1.65;font-size:17px}
+.wrap{max-width:680px;margin:0 auto;padding:56px 22px 80px}
+h1{font-family:var(--slab);text-transform:uppercase;letter-spacing:2px;
+  font-size:1.6rem;margin:0 0 6px}
+h2{font-family:var(--slab);text-transform:uppercase;letter-spacing:2px;
+  font-size:1rem;margin:36px 0 10px;color:var(--paper-dim)}
+h3{font-family:var(--slab);font-size:.95rem;margin:24px 0 8px}
+p,li{max-width:62ch}
+a{color:var(--paper);text-underline-offset:3px}
+a:hover{color:var(--tp-red)}
+nav.back{font-family:var(--type);font-size:.8rem;letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:34px;display:block}
+nav.back a{text-decoration:none;color:var(--paper-dim)}
+nav.back a:hover{color:var(--tp-red)}
+footer{margin-top:52px;font-family:var(--type);font-size:.75rem;
+  letter-spacing:.06em;color:var(--paper-dim)}
+footer a{color:var(--paper-dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="back"><a href="/">&larr; Twincan</a></nav>
+<h1>Connecting OpenRouter</h1>
+<p id="msg">Returning to Twincan&hellip;</p>
+<p><a id="open" hidden>Open Twincan</a></p>
+<footer><a href="/">Twincan</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a></footer>
+</div>
+<script>
+(function () {
+  // The query exactly as OpenRouter sent it (re-encoding could change the
+  // code), then out of the address bar and history on every path.
+  var search = location.search;
+  history.replaceState(null, "", location.pathname);
+  var msg = document.getElementById("msg"), link = document.getElementById("open");
+  if (!search) {
+    msg.textContent = "This page finishes connecting OpenRouter to Twincan. Start from Connect OpenRouter in Twincan's Settings.";
+    return;
+  }
+  var dest = "twincan://openrouter" + search;
+  link.href = dest;
+  link.hidden = false;
+  location.replace(dest);
+})();
+</script>
+</body>
+</html>
