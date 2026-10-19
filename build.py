@@ -36,18 +36,39 @@ def inline(s: str) -> str:
 
 def md_to_html(md: str) -> tuple[str, str]:
     """Return (page_title, body_html). Unlike the Ghost publisher, the <h1> is
-    kept — here there is no CMS to render the title separately."""
-    title, out, in_list = "", [], False
+    kept — here there is no CMS to render the title separately.
+
+    Beyond headings, paragraphs and "- " lists, it reads "1. " numbered lists
+    and pipe tables (header row, then a |---| row), which the AI page uses."""
+    title, out, in_list, table = "", [], None, None
     for line in md.splitlines():
-        if line.startswith("- "):
+        kind = "ul" if line.startswith("- ") else "ol" if re.match(r"\d+\. ", line) else None
+        if table is not None and not line.startswith("|"):
+            assert table == [], "pipe table needs a |---| row under its header"
+            out.append("</tbody></table>")
+            table = None
+        if in_list and kind != in_list:
+            out.append(f"</{in_list}>")
+            in_list = None
+        if kind:
             if not in_list:
-                out.append("<ul>")
-                in_list = True
-            out.append(f"<li>{inline(line[2:])}</li>")
+                out.append(f"<{kind}>")
+                in_list = kind
+            out.append(f"<li>{inline(line.split(' ', 1)[1])}</li>")
             continue
-        if in_list:
-            out.append("</ul>")
-            in_list = False
+        if line.startswith("|"):
+            cells = [c.strip() for c in line.strip().strip("|").split("|")]
+            if table is None:
+                table = cells
+                continue
+            if table and all(re.fullmatch(r":?-+:?", c) for c in cells):
+                out.append("<table><thead><tr>" + "".join(f"<th>{inline(c)}</th>" for c in table)
+                           + "</tr></thead><tbody>")
+                table = []
+                continue
+            assert table == [], f"pipe table needs a |---| row under its header: {line!r}"
+            out.append("<tr>" + "".join(f"<td>{inline(c)}</td>" for c in cells) + "</tr>")
+            continue
         if line.startswith("### "):
             out.append(f"<h3>{inline(line[4:])}</h3>")
         elif line.startswith("## "):
@@ -58,7 +79,10 @@ def md_to_html(md: str) -> tuple[str, str]:
         elif line.strip():
             out.append(f"<p>{inline(line)}</p>")
     if in_list:
-        out.append("</ul>")
+        out.append(f"</{in_list}>")
+    if table is not None:
+        assert table == [], "pipe table needs a |---| row under its header"
+        out.append("</tbody></table>")
     return title, "\n".join(out)
 
 
@@ -130,6 +154,12 @@ nav.back a:hover{color:var(--tp-red)}
 footer{margin-top:52px;font-family:var(--type);font-size:.75rem;
   letter-spacing:.06em;color:var(--paper-dim)}
 footer a{color:var(--paper-dim)}
+ol{padding-left:1.4em}
+table{border-collapse:collapse;width:100%;margin:14px 0 18px;font-size:.92rem}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;
+  border-bottom:1px solid var(--paper-dim)}
+th{font-family:var(--slab);font-size:.8rem;letter-spacing:1px;text-transform:uppercase;
+  color:var(--paper-dim)}
 """
 
 FONTS = re.search(r'<link rel="preconnect".*?rel="stylesheet">', SRC, re.S).group(0)
@@ -137,7 +167,7 @@ FONTS = re.search(r'<link rel="preconnect".*?rel="stylesheet">', SRC, re.S).grou
 # Clean URLs: GitHub Pages has no rewrite rules, but it serves index.html from a
 # directory, so privacy/index.html is reachable as /privacy/ (Pages 301s /privacy
 # to the trailing-slash form). Keep every internal link pointing at /privacy/.
-for slug, path in (("privacy", "/privacy/"), ("terms", "/terms/")):
+for slug, path in (("privacy", "/privacy/"), ("terms", "/terms/"), ("ai", "/ai/")):
     t, body = md_to_html((HERE / f"{slug}.md").read_text())
     (HERE / slug).mkdir(exist_ok=True)
     (HERE / slug / "index.html").write_text(f"""<!DOCTYPE html>
@@ -152,7 +182,7 @@ for slug, path in (("privacy", "/privacy/"), ("terms", "/terms/")):
 <div class="wrap">
 <nav class="back"><a href="/">&larr; Twincan</a></nav>
 {body}
-<footer><a href="/">Twincan</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a></footer>
+<footer><a href="/">Twincan</a> &middot; <a href="/ai/">AI</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a></footer>
 </div>
 </body>
 </html>
@@ -200,11 +230,11 @@ OPENROUTER_JS = """
 <h1>Connecting OpenRouter</h1>
 <p id="msg">Returning to Twincan&hellip;</p>
 <p><a id="open" hidden>Open Twincan</a></p>
-<footer><a href="/">Twincan</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a></footer>
+<footer><a href="/">Twincan</a> &middot; <a href="/ai/">AI</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a></footer>
 </div>
 <script>{OPENROUTER_JS}</script>
 </body>
 </html>
 """)
 
-print("built: index.html, privacy/index.html, terms/index.html, auth/openrouter/index.html")
+print("built: index.html, privacy/index.html, terms/index.html, ai/index.html, auth/openrouter/index.html")

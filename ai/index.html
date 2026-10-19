@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Twincan and AI</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="An answering machine for two! String the can to one person and every note you record lands on their platter, and theirs on yours.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Twincan">
+<meta property="og:title" content="Twincan and AI">
+<meta property="og:description" content="An answering machine for two! String the can to one person and every note you record lands on their platter, and theirs on yours.">
+<meta property="og:url" content="https://twincan.com/ai/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://twincan.com/ai/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<style>:root{
+  --night:#0b0a0c; --paper:#f3ead8; --paper-dim:#cbbfa6;
+  --tp-red:#c8102e; --sky-hi:#e58ac2; --sky-lo:#5a3a6e;
+  --pine:#0f2418; --pine-hi:#1c3a26; --snow:#e9e4ef;
+  --rr-red:#58090e; --rr-tan:#c99a5f; --rr-brown:#2b160c; --rr-cream:#f2e3c8;
+  --serif:"Libre Caslon Text",Georgia,serif;
+  --slab:"Oswald","Arial Narrow",sans-serif;
+  --type:"Special Elite","Courier New",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--night);color:var(--paper);font-family:var(--serif);
+  line-height:1.65;font-size:17px}
+.wrap{max-width:680px;margin:0 auto;padding:56px 22px 80px}
+h1{font-family:var(--slab);text-transform:uppercase;letter-spacing:2px;
+  font-size:1.6rem;margin:0 0 6px}
+h2{font-family:var(--slab);text-transform:uppercase;letter-spacing:2px;
+  font-size:1rem;margin:36px 0 10px;color:var(--paper-dim)}
+h3{font-family:var(--slab);font-size:.95rem;margin:24px 0 8px}
+p,li{max-width:62ch}
+a{color:var(--paper);text-underline-offset:3px}
+a:hover{color:var(--tp-red)}
+nav.back{font-family:var(--type);font-size:.8rem;letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:34px;display:block}
+nav.back a{text-decoration:none;color:var(--paper-dim)}
+nav.back a:hover{color:var(--tp-red)}
+footer{margin-top:52px;font-family:var(--type);font-size:.75rem;
+  letter-spacing:.06em;color:var(--paper-dim)}
+footer a{color:var(--paper-dim)}
+ol{padding-left:1.4em}
+table{border-collapse:collapse;width:100%;margin:14px 0 18px;font-size:.92rem}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;
+  border-bottom:1px solid var(--paper-dim)}
+th{font-family:var(--slab);font-size:.8rem;letter-spacing:1px;text-transform:uppercase;
+  color:var(--paper-dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="back"><a href="/">&larr; Twincan</a></nav>
+<h1>Twincan and AI</h1>
+<p>Twincan can summarize a voice note, pull out its key points, rewrite it as bullets, paraphrase it, and find the questions in it. These are the note tools. This page explains where they run, what leaves your iPhone when they do, and how to use your own AI providers if you want to.</p>
+<p>The short version: on an iPhone with Apple Intelligence and no API keys, the note tools run on the iPhone and nothing leaves it. If you add an API key from Anthropic, Google, OpenAI, or OpenRouter, the tools run through that company too, in an order you control: the note's transcript goes straight from your iPhone to it, and the usage is billed to your key. Twincan has no servers of its own, so nothing passes through Twincan on the way. You can also turn the tools off entirely.</p>
+<h2>What the note tools do</h2>
+<p>Long-press a note, or open its transcript, and pick a tool:</p>
+<table><thead><tr><th>Tool</th><th>What you get</th></tr></thead><tbody>
+<tr><td>Summarize</td><td>A few sentences on what the note is about.</td></tr>
+<tr><td>Key Points</td><td>The main points, most with a button that jumps to that moment in the audio.</td></tr>
+<tr><td>Bullet Points</td><td>The note rewritten as a short list.</td></tr>
+<tr><td>Paraphrase</td><td>The note said again in plainer words.</td></tr>
+<tr><td>Extract Questions</td><td>The questions in the note, including indirect ones ("let me know if Thursday works"), most with a button to hear it.</td></tr>
+</tbody></table>
+<p>The tools only read. They can't send notes, change anything in your can, or act on your behalf, and their results are stored on your iPhone. They aren't shared through iCloud with your notes, though like the rest of Twincan's data they can be part of your iPhone's backups. Results usually name the provider and model that wrote them at the bottom, such as APPLE INTELLIGENCE · ON THIS IPHONE or CLAUDE SONNET 5.5 · ANTHROPIC.</p>
+<h2>Where the tools run</h2>
+<p>Everything lives in Twincan's Settings, under <strong>AI</strong>:</p>
+<ul>
+<li><strong>AI Features</strong> turns the note tools on or off. Off means nothing about your notes is sent to any AI provider, and the note pane shows only the transcript. (Sending a note to the other person through iCloud works as usual.)</li>
+<li><strong>Custom API Keys</strong> is where you add a key for each provider.</li>
+<li><strong>Provider Priority</strong> appears once you've saved a key that has been verified or needs credits. It's the order Twincan tries your providers in, with Apple Intelligence in the list if your iPhone has it.</li>
+</ul>
+<p>Twincan tries the first provider in the list. If it can't produce a result (it's down, it declines the note, or the key has run out of credits), Twincan tries the next one, and so on. A provider whose key was rejected or needs credits is skipped until you fix it, and you can switch any provider off in the list without removing its key. The footer under <strong>AI</strong> in Settings spells out the current order in a sentence.</p>
+<p>Unless you've moved Apple Intelligence up, a new key goes just ahead of it. If you'd rather notes stay on your iPhone whenever possible, drag Apple Intelligence to the top: a provider further down then sees a note only when Apple Intelligence can't handle it.</p>
+<p>Without Apple Intelligence or a working key, the tools don't appear (a tool you already have open keeps its message and Try Again button). Adding a key is how you get them on an iPhone without Apple Intelligence.</p>
+<h2>Supported providers</h2>
+<table><thead><tr><th>Provider</th><th>Model Twincan uses</th><th>Key starts with</th></tr></thead><tbody>
+<tr><td>Apple Intelligence</td><td>Apple's on-device model</td><td>No key</td></tr>
+<tr><td><a href="https://www.anthropic.com">Anthropic</a></td><td>Claude Sonnet 5.5</td><td>sk-ant-</td></tr>
+<tr><td><a href="https://ai.google.dev">Google</a></td><td>Gemini 3.8 Flash</td><td>AIza</td></tr>
+<tr><td><a href="https://openai.com">OpenAI</a></td><td>GPT-5.6 Terra</td><td>sk-</td></tr>
+<tr><td><a href="https://openrouter.ai">OpenRouter</a></td><td>Claude Sonnet 5.5, through OpenRouter</td><td>sk-or-</td></tr>
+</tbody></table>
+<p>Twincan chooses the model for each provider; there is no model picker. If you don't already have an account with any of these, <strong>OpenRouter is the easiest start</strong>: Twincan can connect to it without you copying a key at all (see below). If you already pay for Anthropic's API, use an Anthropic key, since the request then goes to one company instead of two.</p>
+<h2>Getting an API key</h2>
+<p>An API key is a password that lets an app use your account with an AI company. It's separate from a ChatGPT, Claude, or Gemini subscription: those plans don't include API usage, which is billed on its own.</p>
+<p>Each provider's page in Twincan (Settings → AI → Custom API Keys) has a <strong>Manage in</strong> button that opens the page where you make a key, in a sheet you can swipe away to get back to Twincan.</p>
+<h3>Anthropic</h3>
+<ol>
+<li>Go to <a href="https://platform.claude.com">platform.claude.com</a> and sign in, or create an account.</li>
+<li>Add credits under <a href="https://platform.claude.com/settings/billing">Billing</a>. Keys don't work until the account can pay.</li>
+<li>Open <a href="https://platform.claude.com/settings/keys">API keys</a>, click <strong>Create key</strong>, and name it "Twincan".</li>
+<li>Copy the key. Anthropic shows it only once; if you lose it, make a new one.</li>
+</ol>
+<h3>Google</h3>
+<ol>
+<li>Go to <a href="https://aistudio.google.com/apikey">Google AI Studio</a> and sign in with your Google account.</li>
+<li>Click <strong>Create API key</strong>. If asked, let it create a new project.</li>
+<li>Copy the key.</li>
+</ol>
+<p>Google's API works without billing, on a free tier with lower limits. Read the note on Google's free tier under "What providers do with it" before you choose it.</p>
+<h3>OpenAI</h3>
+<ol>
+<li>Go to <a href="https://platform.openai.com">platform.openai.com</a> and sign in, or create an account.</li>
+<li>Add credits or a payment method under <a href="https://platform.openai.com/settings/organization/billing">Billing</a>.</li>
+<li>Open <a href="https://platform.openai.com/api-keys">API keys</a>, click <strong>Create new secret key</strong>, and name it "Twincan".</li>
+<li>Copy the key. OpenAI shows it only once.</li>
+</ol>
+<h3>OpenRouter</h3>
+<p>You can skip the key entirely: on OpenRouter's page in Twincan, tap <strong>Connect OpenRouter Account</strong>, sign in on openrouter.ai, and approve Twincan. OpenRouter hands Twincan a key of its own, which is checked and stored like a pasted one. You still need credits on your OpenRouter account.</p>
+<p>To make a key by hand instead:</p>
+<ol>
+<li>Go to <a href="https://openrouter.ai">openrouter.ai</a> and sign in, or create an account.</li>
+<li>Add credits under <a href="https://openrouter.ai/settings/credits">Credits</a>.</li>
+<li>Open <a href="https://openrouter.ai/settings/keys">Keys</a> and click <strong>Create key</strong>. You can give it a credit limit here.</li>
+<li>Copy the key.</li>
+</ol>
+<h2>Adding a key to Twincan</h2>
+<ol>
+<li>Open Settings in Twincan and go to <strong>AI → Custom API Keys</strong>.</li>
+<li>Tap the provider.</li>
+<li>Paste your key into the <strong>API Key</strong> field.</li>
+<li>Tap <strong>Verify</strong>.</li>
+</ol>
+<p>Verify sends the provider one tiny test request (the word "Hi", nothing from your notes) to check that the key works and the account can pay for it. For OpenRouter it first looks up the key's remaining allowance, and it checks again each time you open OpenRouter's page in Settings; each of those test requests is billed like any other, though it is tiny. The key is saved only if the provider recognizes it. The provider's row then shows its status:</p>
+<table><thead><tr><th>Status</th><th>What it means</th></tr></thead><tbody>
+<tr><td>✓ Verified</td><td>The key works. For OpenRouter, the page also shows how much is left on the key if it has a credit limit.</td></tr>
+<tr><td>Needs credits</td><td>The key is real but the account can't pay. Twincan skips it until you add credits, then tap the refresh button to check again.</td></tr>
+<tr><td>Rejected</td><td>The provider turned the key down. Paste a new one.</td></tr>
+<tr><td>Not verified yet</td><td>A key saved by an earlier version of Twincan. It's used until a request or Verify says otherwise.</td></tr>
+</tbody></table>
+<p>To replace a key, paste a new one into the same field and tap Verify. To remove it, tap <strong>Remove</strong> at the bottom of the provider's page.</p>
+<h2>What is sent, and when</h2>
+<p>Nothing is sent while a note runs on Apple Intelligence. When a note runs through a provider with your key, here is what leaves your iPhone:</p>
+<table><thead><tr><th>What</th><th>Sent?</th><th>When</th></tr></thead><tbody>
+<tr><td>The note's transcript, as text</td><td>Yes</td><td>When you use a tool on it</td></tr>
+<tr><td>Received notes' transcripts</td><td>Yes</td><td>Automatically, after they arrive and while Twincan is open, to check them for questions</td></tr>
+<tr><td>Instructions telling the model what to do</td><td>Yes</td><td>With every request</td></tr>
+<tr><td>The sender's name as it appears in Twincan (tidied), and their pronouns if known</td><td>Yes, for received notes</td><td>With the request, so the result can refer to them correctly</td></tr>
+<tr><td>The note's audio</td><td>Never</td><td></td></tr>
+<tr><td>Its title, date, or length</td><td>Never</td><td></td></tr>
+<tr><td>Your other notes, your photo, or your contacts</td><td>Never</td><td></td></tr>
+<tr><td>Anything about your iCloud account</td><td>Never</td><td></td></tr>
+</tbody></table>
+<p>The sender's name is tidied before it's sent: it keeps only letters, numbers, apostrophes and hyphens, and at most three words.</p>
+<p>Because Twincan falls back down your Provider Priority list, a note one provider couldn't handle can be sent to the next one. Apple Intelligence is tried only if your iPhone has it, and other providers only if you've added a key for them; either way, only if you've left them switched on. A result whose footer says Apple Intelligence may still have been tried elsewhere first: if Apple Intelligence produces only part of an answer, Twincan tries the next providers, and shows Apple's partial answer only if none of them does better.</p>
+<p>Two things happen without you tapping a tool:</p>
+<ul>
+<li><strong>The automatic question check</strong> runs on notes you received, and is what lets Twincan show that a note has questions waiting for you. Adding a key lets it check notes you received before.</li>
+<li><strong>A tool you have open stays current.</strong> If its result is out of date, Twincan makes a new one when the note pane reloads.</li>
+</ul>
+<p>Results are kept, so a note isn't re-sent every time you open the app. A note is sent again when its result goes out of date: after you add, remove, switch, or reorder providers, when the sender's pronouns change, when Twincan's instructions change in an update, or when an earlier try didn't finish. On Apple Intelligence all of this happens on your iPhone.</p>
+<p>Requests go directly from your iPhone to each provider. If Google rejects the format Twincan asks for, Twincan sends the request once more in a simpler form. Requests to OpenRouter name Twincan as the app making them. OpenRouter is a router, not a model: it passes your request on to the model provider it routes to (Twincan asks it for Anthropic's Claude), so both OpenRouter's and that provider's policies apply.</p>
+<h3>Your keys</h3>
+<p>Your keys are stored in your iPhone's keychain, the same place iOS keeps passwords. They stay on this iPhone: they aren't synced to iCloud Keychain, aren't included in a backup that can be restored to another phone, and each is sent only to the company it belongs to. Keychain items can outlast an app, so remove your keys in Settings before deleting Twincan.</p>
+<h3>What providers do with it</h3>
+<p>What a provider does with what it receives is governed by its own terms. As of this writing, Anthropic, OpenAI, and OpenRouter say they don't train models on API data by default.</p>
+<p><strong>Google's free tier is different.</strong> Under Google's Gemini API terms, if your Google key is on the free tier, Google may use what it receives, transcripts included, to improve its products, and people may review it. Turning on billing for the key's project moves it to Google's paid terms, which don't. If that matters to you, turn on billing, or use another provider.</p>
+<p>Check each company's current terms rather than taking our word for it:</p>
+<ul>
+<li>Anthropic: <a href="https://www.anthropic.com/legal/commercial-terms">Commercial terms</a> and <a href="https://www.anthropic.com/legal/privacy">Privacy policy</a></li>
+<li>Google: <a href="https://ai.google.dev/gemini-api/terms">Gemini API terms</a> and <a href="https://policies.google.com/privacy">Privacy policy</a></li>
+<li>OpenAI: <a href="https://developers.openai.com/docs/guides/your-data">Your data</a> and <a href="https://openai.com/policies/privacy-policy/">Privacy policy</a></li>
+<li>OpenRouter: <a href="https://openrouter.ai/privacy">Privacy policy</a> and <a href="https://openrouter.ai/terms">Terms</a></li>
+</ul>
+<p>Twincan's own <a href="/privacy/">privacy policy</a> covers all of this too.</p>
+<h2>What it costs</h2>
+<p>Twincan doesn't charge for the note tools. With your own key, each provider bills your account for each request, by the amount of text in and out, at its standard rates. A voice note's transcript is short, so each tool is a small charge, but the automatic question check adds a request for most notes you receive, and a note can be sent to more than one provider when one falls back to the next. See each provider's pricing page for current rates.</p>
+<p>If you want a ceiling, set a spending limit in your provider's dashboard, or a credit limit on the OpenRouter key.</p>
+<h2>Troubleshooting</h2>
+<p>When a tool can't finish, the note shows a message and a <strong>Try Again</strong> button.</p>
+<p><strong>"Couldn't finish just now."</strong> Twincan couldn't get a result this time: you're offline, a provider is busy or rate-limiting you, a key stopped working, providers were skipped because they're out of credits or busy, or something went wrong saving the result. Wait a moment and tap Try Again. If it keeps happening, open Settings → AI → Custom API Keys and look for a key marked <strong>Needs credits</strong> or <strong>Rejected</strong>.</p>
+<p><strong>"None of your AI providers could read this one."</strong> Every provider that tried couldn't handle this note: a content filter declined it, it's too long, it's in a language the model doesn't support, or the answer came back unusable. Adding another provider may help.</p>
+<p><strong>"Add a provider in Settings → AI."</strong> AI Features is on, but there's nothing to run on: no Apple Intelligence and no key, or you've switched every provider off in Provider Priority.</p>
+<p><strong>"Your AI providers need attention in Settings → AI."</strong> You have providers switched on, but none can be used right now, usually because each key needs credits or was rejected.</p>
+<p>When you tap Verify:</p>
+<ul>
+<li><strong>"That looks like an OpenAI key."</strong> (or another provider) The key belongs to a different provider than the page you're on. Open that provider's page instead.</li>
+<li><strong>"Anthropic rejected this key."</strong> (or another provider) The key was copied wrong, revoked, or expired. Make a new one.</li>
+<li><strong>"Couldn't reach Google. Try again."</strong> (or another provider) Twincan couldn't tell whether the key works: you're offline, or the provider was busy, rate-limiting, or answered with an error. The key you pasted wasn't saved; a key saved earlier stays as it was.</li>
+<li><strong>"Google won't allow this key here."</strong> (or the provider's own message) The provider refused the key for this use, for example because of the account's region or permissions.</li>
+</ul>
+<p><strong>The tools don't appear.</strong> Check that AI Features is on, and that you have Apple Intelligence turned on or a verified key. The tools also stay hidden on your draft, until a note's transcript is ready, on notes with very little speech, and in the Red Room.</p>
+<h2>Questions</h2>
+<h3>Is my data used to train AI models?</h3>
+<p>Not by Apple Intelligence, which never sends your note anywhere. Anthropic, OpenAI, and OpenRouter each say API data isn't used for training by default. Google's free tier may use it; its paid tier doesn't. Their terms above are the final word.</p>
+<h3>Can I use a free key?</h3>
+<p>Google's free tier works without billing, with the training caveat above. Anthropic and OpenAI require credits before a key works. OpenRouter has free models, but Twincan asks it for Claude, which is paid, so you need credits there too.</p>
+<h3>Which should I choose?</h3>
+<p>If your iPhone has Apple Intelligence and you'd rather nothing left it, don't add a key, or put Apple Intelligence first. If you want sharper summaries or your iPhone doesn't have Apple Intelligence, Connect OpenRouter Account is the quickest way in, and an Anthropic key is the most direct. You can add more than one and let Twincan fall back between them.</p>
+<h2>Questions or problems</h2>
+<p>Get in touch at <a href="https://www.chrismessina.me/contact/">chrismessina.me/contact</a>.</p>
+<footer><a href="/">Twincan</a> &middot; <a href="/ai/">AI</a> &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a></footer>
+</div>
+</body>
+</html>
