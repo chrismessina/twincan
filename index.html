@@ -81,6 +81,29 @@ body,.tincan-page{
   font-family:var(--slab);font-weight:600;text-transform:uppercase;letter-spacing:2px;font-size:14px}
 .tincan-page .cta:focus-visible{outline:3px solid var(--paper);outline-offset:3px}
 .tincan-page .fineprint{font-size:13px;color:var(--paper-dim)}
+.tincan-page .fineprint a{border-bottom:1px solid #3a3340}
+
+/* ── beta signup ── */
+.tincan-page .beta-form{display:flex;flex-direction:column;gap:10px;max-width:420px;margin:6px 0 4px}
+.tincan-page .beta-form[hidden]{display:none}
+.tincan-page .beta-field{width:100%;height:48px;padding:0 14px;border:1px solid #3a3340;border-radius:4px;
+  background:#151217;color:var(--paper);font:400 17px var(--serif)}
+.tincan-page .beta-field::placeholder{color:#8d8373;opacity:1}
+.tincan-page .beta-field:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+.tincan-page .beta-field[aria-invalid="true"]{border-color:var(--tp-red);outline-color:var(--tp-red)}
+.tincan-page .beta-trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.tincan-page .beta-check{min-height:65px}
+.tincan-page .beta-submit{align-self:flex-start;border:0;cursor:pointer;margin:2px 0 0}
+.tincan-page .beta-submit:disabled{opacity:.55;cursor:default}
+.tincan-page .beta-status{margin:0;font-family:var(--type);font-size:14.5px;color:#ff6b7d}
+.tincan-page .beta-status:empty{display:none}
+.tincan-page .beta-thanks{max-width:420px;margin:6px 0 18px}
+.tincan-page .beta-thanks:focus{outline:none}
+.tincan-page .beta-thanks p{margin:0}
+.tincan-page .beta-thanks .quote{margin:0 0 4px}
+.tincan-page .beta-thanks.ring{animation:ring .5s ease-out 2}
+@keyframes ring{0%,100%{transform:none}20%{transform:rotate(-1.2deg)}40%{transform:rotate(1.2deg)}60%{transform:rotate(-.6deg)}80%{transform:rotate(.6deg)}}
+body.redroom .tincan-page .beta-field{background:#2a0609;border-color:#7c1218;color:var(--rr-cream)}
 .tincan-page footer{padding:40px 0 60px;border-top:1px solid #241f26;margin-top:44px}
 .tincan-page footer .wrap{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:baseline;
   font-size:13.5px;color:var(--paper-dim)}
@@ -173,10 +196,19 @@ body.redroom .tincan-page .feature p,body.redroom .tincan-page .fineprint,body.r
     </div>
   </section>
 
-  <section>
-    <h2>Get it</h2>
-    <p><a class="cta" href="https://testflight.apple.com/join/TZyBdtSj">Join the TestFlight</a></p>
-    <p class="fineprint">Twincan is in a small beta. iOS 26 or later. The owls are not what they seem.</p>
+  <section id="beta">
+    <h2>Join the beta</h2>
+    <p>Twincan is in beta on TestFlight. Leave your email and you’ll get an invite. It takes two, so bring someone to string your can to.</p>
+    <form class="beta-form" id="beta-form" hidden novalidate>
+      <input class="beta-field" name="email" type="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="254" placeholder="Email address" aria-label="Email address" required aria-describedby="beta-status">
+      <input class="beta-field" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Name (optional)" aria-label="Name (optional)">
+      <!-- Off-screen rather than hidden, so form-filling bots still find it. -->
+      <div class="beta-trap" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <div class="cf-turnstile beta-check" data-theme="dark"></div>
+      <button class="cta beta-submit" type="submit">Join the Beta</button>
+      <p class="beta-status" id="beta-status" role="status" aria-live="polite"></p>
+    </form>
+    <p class="fineprint">We’ll only email you about the Twincan beta and launch, and you can ask to be removed anytime. See the <a href="/privacy/">privacy policy</a>. iOS 26 or later. The owls are not what they seem.</p>
   </section>
 </main>
 
@@ -207,6 +239,93 @@ body.redroom .tincan-page .feature p,body.redroom .tincan-page .fineprint,body.r
   addEventListener('deviceorientation', e => {
     if (e.beta !== null) enter(Math.abs(e.beta) > 150);
   });
+})();
+
+// Beta signup. Posts to the twincan-beta Worker (worker/ in this repo). Only
+// twincan.com and a local preview have one, so anywhere else the form stays
+// hidden. Turnstile site keys are public; the localhost one always passes.
+(function(){
+  const live = location.hostname === 'twincan.com' || location.hostname === 'www.twincan.com';
+  const local = ['localhost', '127.0.0.1'].includes(location.hostname);
+  const siteKey = live ? '0x4AAAAAAFxloL4oEUCdvMe3' : local ? '1x00000000000000000000AA' : '';
+  const endpoint = live ? 'https://api.twincan.com/beta' : 'http://localhost:8787/beta';
+  const form = siteKey ? document.getElementById('beta-form') : null;
+  if (!form) return;
+
+  const email = form.elements.email;
+  const button = form.querySelector('.beta-submit');
+  const status = document.getElementById('beta-status');
+  let sending = false;
+
+  const fail = (message, field) => {
+    status.textContent = message;
+    if (field) { field.setAttribute('aria-invalid', 'true'); field.focus(); }
+  };
+  email.addEventListener('input', () => email.removeAttribute('aria-invalid'));
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (sending) return;
+    status.textContent = '';
+    const address = email.value.trim();
+    if (!/^[^\s@,;:\"'<>()\[\]\\]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/i.test(address)) return fail('Enter an email address like name@example.com.', email);
+
+    sending = true;
+    button.disabled = true;
+    button.textContent = 'Stringing…';
+    // A stalled connection must not leave the button stuck on "Stringing…".
+    const deadline = new AbortController();
+    const timer = setTimeout(() => deadline.abort(), 15000);
+    try {
+      const response = await fetch(endpoint, {
+        signal: deadline.signal,
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          email: address,
+          name: form.elements.name.value.trim(),
+          website: form.elements.website.value,
+          turnstileToken: form.elements['cf-turnstile-response']?.value ?? '',
+        }),
+      });
+      const result = await response.json().catch(() => ({ ok: false }));
+      if (result.ok) {
+        const thanks = document.createElement('div');
+        thanks.className = 'beta-thanks';
+        thanks.tabIndex = -1;
+        thanks.innerHTML = '<div class="quote">Diane, we have a new tester.</div><p class="fineprint">You’re on the list. Watch for an email from TestFlight.</p>';
+        form.replaceWith(thanks);
+        thanks.focus();
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) thanks.classList.add('ring');
+        return;
+      }
+      fail(result.error || 'Something went wrong. Please try again.');
+    } catch {
+      fail('Couldn’t reach Twincan. Check your connection and try again.');
+    } finally {
+      clearTimeout(timer);
+      if (form.isConnected) {
+        sending = false;
+        button.disabled = false;
+        button.textContent = 'Join the Beta';
+        // A Turnstile token works once, so get a fresh one before the next try.
+        try { window.turnstile?.reset(); } catch {}
+      }
+    }
+  });
+
+  // Only now reveal the form and load Turnstile, so a submit can never reach
+  // the browser's default (a page reload) without the handler above.
+  form.hidden = false;
+  form.querySelector('.cf-turnstile').dataset.sitekey = siteKey;
+  try {
+    const turnstile = document.createElement('script');
+    turnstile.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    turnstile.async = true;
+    document.head.append(turnstile);
+  } catch {
+    status.textContent = 'The robot check couldn’t load. Try reloading the page.';
+  }
 })();
 </script>
 </div>

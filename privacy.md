@@ -1,8 +1,8 @@
 # Twincan Privacy Policy
 
-*Effective: October 18, 2026*
+*Effective: November 3, 2026*
 
-Twincan is a voice-note app for exactly two people, made by Chris Messina. This policy describes what it does with your information. It is short because Twincan does very little with your information.
+Twincan is a voice-note app for exactly two people, made by Chris Messina. This policy describes what it, and the beta signup form on twincan.com, do with your information. It is short because Twincan does very little with your information.
 
 ## What Twincan stores, and where
 
@@ -28,10 +28,20 @@ Twincan can summarize a note, list its key points, rewrite it as bullets, paraph
 - **Results name their source.** Results are labeled with the provider and model that produced them.
 - **Results stay on your device.** Summaries, key points, and the other results are stored on your iPhone and are not shared through iCloud with your notes. Like Twincan’s other data, they can be included in your iPhone’s backups.
 
+## The beta signup form
+
+twincan.com has a form for joining the Twincan beta. It is separate from the app: signing up does not connect your email to anything in Twincan.
+
+- **What it collects.** Your email address and, if you give one, your name, along with the time you signed up. Nothing else: not your IP address, your browser, or your location.
+- **Where it goes.** The form sends them to a small service of ours that runs on Cloudflare and stores them in a Cloudflare database.
+- **What it’s for.** Inviting you to the beta through Apple’s TestFlight, and emailing you about the beta and launch. Inviting you gives your name and email to Apple, whose terms govern TestFlight. Your email is not added to any mailing list service, sold, or shared with anyone else.
+- **The robot check.** The form uses Cloudflare Turnstile to tell people from bots. It runs in your browser, and Cloudflare’s privacy policy covers what it collects.
+- **Leaving the list.** Ask through the contact page below and your email and name are deleted from the list. Leaving the beta in TestFlight is up to you and Apple.
+
 ## What Twincan does NOT do
 
-- No accounts. Twincan uses your existing iCloud identity; we never see your password, email, or phone number.
-- No servers of ours. Twincan has no backend. Your data moves through Apple’s iCloud infrastructure under your own Apple ID and, only if you set up the note tools as described above, to the AI companies you chose.
+- No accounts. Twincan uses your existing iCloud identity; the app never sees your password, email, or phone number.
+- No servers of ours. The app has no backend; the beta signup form described above is the only service of ours, and the app never talks to it. Your data moves through Apple’s iCloud infrastructure under your own Apple ID and, only if you set up the note tools as described above, to the AI companies you chose.
 - No analytics, tracking, advertising, or telemetry of any kind.
 - No access to your contacts database. Choosing an invite recipient uses Apple’s out-of-process contact picker; Twincan keeps only the name of the person you pick.
 - No sale of your data. Twincan shares it only as this policy describes: with the person your can is strung to, and with the AI companies you choose.

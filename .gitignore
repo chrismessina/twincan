@@ -15,3 +15,7 @@
 /sources/
 /statuses/
 /views.json
+
+# Beta signup Worker: local secrets and wrangler's local state.
+/worker/.dev.vars
+/worker/.wrangler/

@@ -15,8 +15,8 @@ between the two phones through your own iCloud. It is currently in a small beta.
 
 ## About this repository
 
-This repo holds **only the public marketing site** — three static pages, no
-tracking, no framework. The iOS app is closed source and lives elsewhere; nothing
+This repo holds **only the public marketing site** — a few static pages, no
+tracking, no framework — and the small Worker behind its beta signup form. The iOS app is closed source and lives elsewhere; nothing
 here is part of it.
 
 It is public because a marketing site has nothing to hide, and because a privacy
@@ -37,6 +37,7 @@ python3 build.py
 | AI and note tools page (`/ai/`) | `ai.md` |
 | Privacy policy | `privacy.md` |
 | Terms of use | `terms.md` |
+| Beta signup service | `worker/` (see below) |
 | OpenRouter sign-in callback (`/auth/openrouter/`) | the block at the end of `build.py` |
 
 `index.html`, `privacy/index.html`, `terms/index.html`, `ai/index.html` and `auth/openrouter/index.html` are **generated** — edit
@@ -61,6 +62,36 @@ URLs are extensionless (`/privacy/`, not `/privacy.html`) because the legal page
 build into their own directories as `index.html`. Pages has no rewrite rules, so
 this is the only way to get clean URLs from it — keep internal links pointing at
 the trailing-slash form.
+
+## Beta signups
+
+The landing page's form posts to `https://api.twincan.com/beta`, a Cloudflare
+Worker in `worker/` that stores an email, an optional name and a timestamp in
+the D1 database `twincan-beta`. Cloudflare Turnstile and a hidden honeypot
+field keep bots out. The form only appears on twincan.com and localhost.
+
+```bash
+cd worker
+wrangler d1 migrations apply twincan-beta --remote   # schema; rerun after adding a migration
+wrangler secret put TURNSTILE_SECRET     # once; the widget's secret key
+wrangler deploy                          # ship the Worker
+./export.sh > testers.csv                # every signup, as TestFlight CSV
+./export.sh 2026-11-10 > new.csv         # signups since a date (UTC)
+```
+
+Import the CSV in App Store Connect: TestFlight → the external group →
+Testers → + → Import from CSV.
+
+Local preview: `python3 -m http.server 8000` in the repo root and
+`wrangler dev --port 8787` in `worker/` (first run:
+`wrangler d1 migrations apply twincan-beta --local`). `worker/.dev.vars`
+(gitignored) points the Worker at localhost and Turnstile's always-pass test
+secret:
+
+```
+ALLOWED_ORIGINS="http://localhost:8000"
+TURNSTILE_SECRET="1x0000000000000000000000000000000AA"
+```
 
 ## Licence
 

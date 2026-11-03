@@ -1,0 +1,21 @@
+# Beta signup Worker for twincan.com. See README.md ("Beta signups").
+name = "twincan-beta"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+
+# api.twincan.com is a Workers custom domain: deploying creates its DNS record
+# and certificate. twincan.com itself stays on GitHub Pages, DNS-only.
+routes = [{ pattern = "api.twincan.com", custom_domain = true }]
+
+[vars]
+ALLOWED_ORIGINS = "https://twincan.com,https://www.twincan.com"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "twincan-beta"
+database_id = "5bb17f71-08bb-4395-9a21-b27a257f91e6"
+migrations_dir = "migrations"
+
+# TURNSTILE_SECRET is a secret, not a var: `wrangler secret put TURNSTILE_SECRET`.
+# For `wrangler dev`, .dev.vars (gitignored) overrides both with localhost and
+# Turnstile's always-pass test secret.
