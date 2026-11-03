@@ -11,7 +11,10 @@ case "$since" in *[!0-9T:Z-]*) echo "date must look like 2026-11-10" >&2; exit 1
 wrangler d1 execute twincan-beta --remote --json --command \
   "SELECT name, email FROM signups WHERE created_at >= '$since' ORDER BY created_at" |
 node -e '
-  const rows = JSON.parse(require("fs").readFileSync(0, "utf8"))[0].results;
+  const raw = require("fs").readFileSync(0, "utf8");
+  let rows;
+  try { rows = JSON.parse(raw)[0].results; }
+  catch { console.error("wrangler did not return JSON; it said:\n" + raw.slice(0, 500)); process.exit(1); }
   const q = (s) => /[",\n]/.test(s) ? `"${s.replace(/"/g, "\"\"")}"` : s;
   for (const { name, email } of rows) {
     const i = name.indexOf(" ");
